@@ -6,7 +6,7 @@ export default function Footer() {
 					<div>
 						<div className="flex flex-wrap justify-center gap-2">
 							<a 
-								href="https://linkedin.com/in/forrestpknight"
+								href="https://linkedin.com/in/jaketbailey"
 								className="bg-blue-400 dark:bg-purple-400 p-2 font-semibold text-white inline-flex items-center space-x-2 rounded-md">
 								<svg
 								className="w-5 h-5 fill-current"
