@@ -13,15 +13,14 @@ export default [
        `,
     },
     {
-       title: 'Lego Store Coursework',
-       imgUrl: '/lego.webp',
-       stack: ['JavaScript', 'HTML/CSS', 'Node.js'],
-       link: 'https://github.com/jaketbailey/app-eng-lego',
+       title: 'Portfolio Website',
+       imgUrl: '/portfolio.png',
+       stack: ['React', 'Vite', 'TailwindCSS'],
+       link: 'https://github.com/jaketbailey/portfolio',
        description: `
-       Throughout the Year 2 Application Engineering Module, I developed a Lego© E-commerce store featuring account management, 
-       a basket system, order fulfillment processes, and a product catalog, all accessible via a web browser on port 8080. Utilising Auth0, 
-       I implemented OAuth authentication to ensure secure handling of user accounts without storing passwords locally. The project culminated 
-       in a high first grade of 77, and the complete source code is available for review.
+       I have recently built this portfolio website using React, Vite and TailwindCSS.
+       The plan was to simplify my portfolio, making it more accessible, with less redundant information.
+       All the code is viewable on my GitHub.
        `,
     },
  ]

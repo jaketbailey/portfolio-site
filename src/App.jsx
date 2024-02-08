@@ -3,6 +3,7 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import Intro from './components/Intro';
 import Portfolio from './components/Portfolio';
+import Socials from './components/Socials';
 import Timeline from './components/Timeline';
 
 function App() {
@@ -73,13 +74,16 @@ function App() {
       >
         {theme === 'dark' ? sun : moon}
       </button>
+      <div className="fixed z-10 left-20 top-4 space-x-4 flex items-center">
+        <Socials theme={theme} />
+      </div>
       <div className="bg-white dark:bg-stone-900 text-stone-900 dark:text-stone-300 min-h-screen">
         <div className="max-w-5xl w-11/12 mx-auto">
           <Intro />
           <Portfolio />
           <Timeline />
           <Contact />
-          <Footer />
+          <Footer theme={theme} />
         </div>
       </div>
      </>
