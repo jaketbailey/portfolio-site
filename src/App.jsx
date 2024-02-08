@@ -77,7 +77,7 @@ function App() {
       <div className="fixed z-10 left-20 top-4 space-x-4 flex items-center">
         <Socials theme={theme} />
       </div>
-      <div className="bg-white dark:bg-stone-900 text-stone-900 dark:text-stone-300 min-h-screen">
+      <div className="bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-300 min-h-screen">
         <div className="max-w-5xl w-11/12 mx-auto">
           <Intro />
           <Portfolio />

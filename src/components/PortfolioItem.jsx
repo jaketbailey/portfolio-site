@@ -11,7 +11,7 @@ export default function PortfolioItem({ title, imgUrl, stack, link, description 
 
    return (
       <button 
-         className="border-2 border-stone-900 dark:border-white rounded-md overflow-hidden"
+         className="border-2 border-zinc-900 dark:border-white rounded-md overflow-hidden"
          onClick={() => setShowModal(!showModal)}
       >
          <Modal
@@ -30,7 +30,7 @@ export default function PortfolioItem({ title, imgUrl, stack, link, description 
             <h3 className="text-lg md:text-xl dark:text-white mb-2 md:mb-3 font-semibold ">{title}</h3>
             <p className="flex flex-wrap gap-2 flex-row items-center justify-start text-xs md:text-sm dark:text-white ">
                {stack.map(item => (
-                  <span className="inline-block px-2 py-1 font-semibold border-2 border-stone-900 dark:border-white rounded-md">
+                  <span className="inline-block px-2 py-1 font-medium border-2 border-zinc-900 dark:border-white rounded-md">
                      {item}
                   </span>
                ))}

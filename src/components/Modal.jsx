@@ -4,7 +4,7 @@ export default function Modal({ title, description, link, show, onClose }) {
             <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                 <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
                 <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-                <div className={`inline-block align-bottom dark:bg-stone-900 dark:text-stone-300 bg-white text-gray-900 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full`} onClick={e => e.stopPropagation()}>
+                <div className={`inline-block align-bottom dark:bg-zinc-900 dark:text-zinc-300 bg-white text-gray-900 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full`} onClick={e => e.stopPropagation()}>
                     <div className="px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                         <div className="flex justify-between items-start">
                             <h2 className="text-lg leading-6 font-medium" id="modal-title">{title}</h2>
@@ -19,7 +19,7 @@ export default function Modal({ title, description, link, show, onClose }) {
                             <a
                                 href={link}
                                 target="_blank"
-                                className="py-2 px-2 bg-blue-400 dark:bg-purple-400 dark:text-stone-900 text-sm p-1 rounded-md"
+                                className="py-2 px-2 bg-blue-400 dark:bg-purple-400 dark:text-zinc-900 text-sm p-1 rounded-md"
                                 rel="noreferrer noopener"
                             >
                                 View Project
