@@ -21,10 +21,10 @@ export default [
         "In June 2022 I started my placement at BAE Systems Maritime Naval Ships developing everything from complex data analyst tools in MATLAB, to proof-of-concept software with Vue, Python and React.",
     },
     {
-        year: '2019',
-        title: 'IT Department Work Experience',
-        duration: '1 month',
+        year: '2016',
+        title: 'Charity Cycle',
+        duration: '12 days',
         details:
-        "In 2019 I worked a voluntary, short term work experience position at Global (formally Exterion Media) within their IT Department.",
+        "Successfully cycled from Land's End to John o' Groats, raising £7300 for charities. Completed numerous other cycling events and raised funds through various means.",
     },
  ]
