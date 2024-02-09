@@ -1,5 +1,12 @@
 export default [
     {
+        year: 'Future',
+        title: 'Combat Systems Software Engineer',
+        duration: '2+ Years',
+        details:
+            'I will be returning to BAE Systems in a graduate role, working on the development of Combat Systems software for Maritime Naval Ships.',
+    },
+    {
         year: 'Today',
         title: 'BSc (Hons) Software Engineering',
         duration: '4 years',
@@ -12,5 +19,12 @@ export default [
         duration: '1 year',
         details:
         "In June 2022 I started my placement at BAE Systems Maritime Naval Ships developing everything from complex data analyst tools in MATLAB, to proof-of-concept software with Vue, Python and React.",
+    },
+    {
+        year: '2019',
+        title: 'IT Department Work Experience',
+        duration: '1 Month',
+        details:
+        "In 2019 I worked a voluntary, short term work experience position at Global (formally Exterion Media) within their IT Department.",
     },
  ]

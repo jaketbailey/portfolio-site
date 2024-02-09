@@ -66,27 +66,33 @@ function App() {
     );
   
     return (
-    <>
-      <button
-        type="button"
-        onClick={handleThemeSwitch}
-        className="fixed p-2 z-10 right-20 top-4 bg-blue-400 dark:bg-purple-400 text-lg p-1 rounded-md"
-      >
-        {theme === 'dark' ? sun : moon}
-      </button>
-      <div className="fixed z-10 left-20 top-4 space-x-4 flex items-center">
-        <Socials theme={theme} />
-      </div>
-      <div className="bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-300 min-h-screen">
-        <div className="max-w-5xl w-11/12 mx-auto">
-          <Intro />
-          <Portfolio />
-          <Timeline />
-          <Contact />
-          <Footer theme={theme} />
+      <>
+        <button
+          type="button"
+          onClick={handleThemeSwitch}
+          className="fixed p-2 z-10 right-20 top-4 bg-blue-400 dark:bg-purple-400 text-lg p-1 rounded-md"
+        >
+          {theme === 'dark' ? sun : moon}
+        </button>
+        <div className="fixed z-10 left-20 top-4 space-x-4 flex items-center">
+          <Socials theme={theme} />
         </div>
-      </div>
-     </>
+        <div className="bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-300 min-h-screen flex justify-center">
+          <div className="max-w-5xl w-11/12 flex">
+            <div className="w-1/2 h-screen overflow-auto">
+              <Intro />
+              <Portfolio />
+            </div>
+            <div className="w-1/2 ml-auto overflow-auto pt-30 pb-6">
+              <Timeline />
+            </div>
+          </div>
+        </div>
+        <div className='bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-300'>
+            <Contact />
+            <Footer theme={theme} />
+        </div>
+      </>
     )
 }
 
