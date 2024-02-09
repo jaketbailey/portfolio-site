@@ -67,14 +67,15 @@ function App() {
   
     return (
       <>
+      <div></div>
         <button
           type="button"
           onClick={handleThemeSwitch}
-          className="fixed p-2 z-10 right-5 md:right-20 top-4 bg-blue-400 dark:bg-purple-400 text-lg p-1 rounded-md"
+          className="absolute md:fixed p-2 z-10 right-5 md:right-20 top-4 bg-blue-400 dark:bg-purple-400 text-lg p-1 rounded-md"
         >
           {theme === 'dark' ? sun : moon}
         </button>
-        <div className="fixed z-10 left-5 md:left-20 top-4 space-x-4 flex items-center">
+        <div className="absolute md:fixed z-10 left-5 md:left-20 top-4 space-x-4 flex items-center">
           <img src="/jake_portrait.webp" alt="Jake Bailey" className="rounded-full w-10 h-10" />
           <Socials theme={theme} />
         </div>

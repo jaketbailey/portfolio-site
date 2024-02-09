@@ -2,7 +2,7 @@ export default [
     {
         year: 'Future',
         title: 'Combat Systems Software Engineer',
-        duration: '2+ Years',
+        duration: '1+ years',
         details:
             'I will be returning to BAE Systems in a graduate role, working on the development of Combat Systems software for Maritime Naval Ships.',
     },
@@ -23,7 +23,7 @@ export default [
     {
         year: '2019',
         title: 'IT Department Work Experience',
-        duration: '1 Month',
+        duration: '1 month',
         details:
         "In 2019 I worked a voluntary, short term work experience position at Global (formally Exterion Media) within their IT Department.",
     },

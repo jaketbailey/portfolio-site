@@ -6,8 +6,8 @@ export default function Timeline() {
     const theme = 'dark'; // replace this with your theme state
     return (
         <div className="flex flex-col items-center justify-center">
-            <div className="pt-12 w-5/6">
-            <h2 className="pt-12 text-3xl font-bold underline">Experience</h2>
+            <div className="pt-10 md:pt-12 w-full md:w-5/6">
+            <h2 className="md:pt-12 text-3xl font-bold underline">Experience</h2>
                 {timelineData.map((data, idx) => (
                     <TimelineItem key={idx} data={data} theme={theme} />
                 ))}
