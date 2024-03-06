@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/react";
 import React, { useEffect, useState } from 'react';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
@@ -90,10 +91,11 @@ function App() {
           </div>
         </div>
       </div>
-        <div className='bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-300'>
-            {/* <Contact /> */}
-            <Footer theme={theme} />
-        </div>
+      <div className='bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-300'>
+          {/* <Contact /> */}
+          <Footer theme={theme} />
+      </div>
+      <Analytics/>
       </>
     )
 }
