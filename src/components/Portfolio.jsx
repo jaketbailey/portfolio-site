@@ -3,7 +3,7 @@ import portfolio from '../data/portfolio';
 import Modal from './Modal';
 import PortfolioItem from './PortfolioItem';
 
-export default function Portfolio() {
+export default function Portfolio({ theme }) {
    
 
 
@@ -13,10 +13,12 @@ export default function Portfolio() {
             {portfolio.map(project => (
                <PortfolioItem 
                   imgUrl={project.imgUrl}
+                  imgUrlLight={project.imgUrlLight}
                   title={project.title}
                   stack={project.stack}
                   link={project.link}
                   description={project.description}
+                  theme={theme}
                />
             ))}
          </div>

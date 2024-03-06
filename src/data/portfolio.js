@@ -2,6 +2,7 @@ export default [
     {
        title: 'Dissertation Project',
        imgUrl: '/route_planner.png',
+       imgUrlLight: '/route_planner.png',
        stack: ['Go', 'React', 'Vite'],
        link: 'https://github.com/jaketbailey',
        description: `
@@ -15,6 +16,7 @@ export default [
     {
        title: 'Portfolio Website',
        imgUrl: '/portfolio.png',
+       imgUrlLight: '/portfolio_light.png',
        stack: ['React', 'Vite', 'TailwindCSS'],
        link: 'https://github.com/jaketbailey/portfolio',
        description: `

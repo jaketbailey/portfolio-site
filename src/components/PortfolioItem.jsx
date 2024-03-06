@@ -1,13 +1,15 @@
 import React from 'react';
 import Modal from './Modal';
 
-export default function PortfolioItem({ title, imgUrl, stack, link, description }) {
+export default function PortfolioItem({ title, imgUrl, imgUrlLight, stack, link, description, theme }) {
 
    const [showModal, setShowModal] = React.useState(false);
 
    const handleClose = () => {
       setShowModal(false);
    }
+
+   const activeImgUrl = theme === 'dark' ? imgUrl : imgUrlLight;
 
    return (
       <button 
@@ -22,7 +24,7 @@ export default function PortfolioItem({ title, imgUrl, stack, link, description 
             onClose={handleClose}
          />
          <img
-            src={imgUrl}
+            src={activeImgUrl}
             alt="portfolio" 
             className="w-full h-36 md:h-48 object-cover cursor-pointer"
          />

@@ -83,7 +83,7 @@ function App() {
         <div className="max-w-5xl w-11/12 flex flex-wrap">
           <div className="w-full md:w-1/2 overflow-auto">
             <Intro />
-            <Portfolio />
+            <Portfolio theme={theme}/>
           </div>
           <div className="w-full md:w-1/2  ml-auto overflow-auto pt-30 pb-6">
             <Timeline />
