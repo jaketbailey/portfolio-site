@@ -1,6 +1,5 @@
 import { Analytics } from '@vercel/analytics/react'
-import React, { useEffect, useState } from 'react'
-import Contact from '../components/Contact'
+import { useEffect, useState } from 'react'
 import Footer from '../components/Footer'
 import Intro from '../components/Intro'
 import Portfolio from '../components/Portfolio'

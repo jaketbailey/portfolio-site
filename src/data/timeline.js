@@ -1,14 +1,14 @@
 export default [
     {
-        year: 'Future',
+        year: '2024',
         title: 'Combat Systems Software Engineer',
-        duration: '1+ years',
+        duration: 'Current',
         details:
-            'I will be returning to BAE Systems in a graduate role, working on the development of Combat Systems software for Maritime Naval Ships.',
+            'I am returning to BAE Systems in a graduate role, working on the development of Combat Systems software for Maritime Naval Ships.',
     },
     {
         year: '2024',
-        title: 'BSc (Hons) Software Engineering',
+        title: 'First-Class BSc (Hons) Software Engineering',
         duration: '4 years',
         details:
             'In July 2024, I graduated with a First-Class Honours in Software Engineering from the University of Portsmouth. Over the four years, I learned about everything from computer science theory to web development, databases, and more.',
