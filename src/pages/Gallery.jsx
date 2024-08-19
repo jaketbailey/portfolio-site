@@ -21,10 +21,10 @@ function Gallery() {
 
     useEffect(() => {
         //get all images from cloud_name using rest api
-        let url = `https://api.cloudinary.com/v1_1/${cloud_name}/resources/image`
-        if (mode === 'development') {
-            url = '/api'
-        }
+        const url = '/api'
+        // if (mode === 'development') {
+
+        // }
 
         const getImages = async () => {
             const response = await fetch(url, {

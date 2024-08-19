@@ -2,5 +2,11 @@
     "routes": [
         { "src": "/", "dest": "/" },
         { "src": "/gallery", "dest": "/" }
+    ],
+    "rewrites": [
+        {
+            "source": "/api",
+            "destination": "https://api.cloudinary.com/v1_1/drzuv3p2x/resources/image"
+        }
     ]
 }
