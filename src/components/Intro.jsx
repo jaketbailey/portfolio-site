@@ -17,7 +17,7 @@ export default function Intro() {
                 based in the UK. I have a strong background in technologies such
                 as Vue, React/Next.js, Astro and Go. I am constantly looking
                 towards new avenues to improve all all of my work and develop my
-                skillset, you can visit any of my projects on my GitHub at{' '}
+                skill set, you can visit any of my projects on my GitHub at{' '}
                 <a
                     href="https://github.com/jaketbailey/"
                     target="_blank"
