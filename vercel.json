@@ -3,6 +3,14 @@
         {
             "source": "/api",
             "destination": "https://api.cloudinary.com/v1_1/drzuv3p2x/resources/image"
+        },
+        {
+            "source": "/",
+            "destination": "/"
+        },
+        {
+            "source": "/gallery",
+            "destination": "/"
         }
     ],
     "headers": [
