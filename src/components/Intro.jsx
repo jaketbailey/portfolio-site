@@ -15,7 +15,7 @@ export default function Intro() {
             <p className="text-md max-w-full md:max-w-md mb-6">
                 I am an avid runner, software engineer and hobby photographer
                 based in the UK. I have a strong background in technologies such
-                as Vue, React/Next.js, Astro and Go. I am constantly looking
+                as Rust, React/Next.js, Astro and Golang. I am constantly looking
                 towards new avenues to improve all all of my work and develop my
                 skill set, you can visit any of my projects on my GitHub at{' '}
                 <a

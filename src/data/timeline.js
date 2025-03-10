@@ -2,9 +2,9 @@ export default [
     {
         year: '2024',
         title: 'Combat Systems Software Engineer',
-        duration: 'Current',
+        duration: 'Current Position',
         details:
-            'I am returning to BAE Systems in a graduate role, working on the development of Combat Systems software for Maritime Naval Ships.',
+            'I am a graduate at BAE Systems, developing proof-of-concept systems using the Rust Programming Language.',
     },
     {
         year: '2024',
