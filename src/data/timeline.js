@@ -4,7 +4,7 @@ export default [
         title: 'Combat Systems Software Engineer',
         duration: 'Current Position',
         details:
-            'I am a graduate at BAE Systems, developing proof-of-concept systems using the Rust Programming Language.',
+            'I am a graduate at BAE Systems, developing proof-of-concept software using the Rust Programming Language.',
     },
     {
         year: '2024',
