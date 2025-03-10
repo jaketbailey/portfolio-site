@@ -63,17 +63,17 @@ function Home() {
             />
         </svg>
     )
-    // Add the following code snippet to the Home component when gallery is implemented:
-    // <a
-    //     className="absolute md:fixed p-2.5 z-10 right-5 md:right-32 top-4 bg-blue-400 dark:bg-purple-400 rounded-md text-sm dark:text-zinc-900 text-white"
-    //     href="/"
-    // >
-    //     Gallery
-    // </a>
 
     return (
         <>
-            <div></div>
+            <div>
+            <a
+                className="absolute md:fixed p-2.5 z-10 right-5 md:right-32 top-4 bg-blue-400 dark:bg-purple-400 rounded-md text-sm dark:text-zinc-900 text-white"
+                href="/gallery"
+            >
+                Gallery
+            </a>
+            </div>
             <button
                 type="button"
                 onClick={handleThemeSwitch}
