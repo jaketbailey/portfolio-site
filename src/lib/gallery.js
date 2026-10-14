@@ -1,14 +1,6 @@
-// Where the photos and their manifest are served from.
-//
-// Defaults to a same-origin /photos directory, which is what you want once the
-// site itself is served from the home server: no CORS, no config. While the
-// site is still on Vercel and the images live elsewhere, point it at the server
-// with VITE_GALLERY_BASE_URL (that host then needs an
-// Access-Control-Allow-Origin header, or a rewrite in vercel.json).
-const BASE = (import.meta.env.VITE_GALLERY_BASE_URL || '/photos').replace(
-    /\/+$/,
-    ''
-)
+// Where the photos and their manifest are served from: the gallery directory
+// mounted into the container (see compose.yaml), on the same origin as the site.
+const BASE = '/photos'
 
 export const manifestUrl = `${BASE}/gallery.json`
 
