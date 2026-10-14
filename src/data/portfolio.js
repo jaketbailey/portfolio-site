@@ -18,7 +18,7 @@ export default [
         imgUrl: '/portfolio.png',
         imgUrlLight: '/portfolio_light.png',
         stack: ['React', 'Vite', 'TailwindCSS'],
-        link: 'https://github.com/jaketbailey/portfolio',
+        link: 'https://github.com/jaketbailey/portfolio-site',
         description: `
        I have recently built this portfolio website using React, Vite and TailwindCSS.
        The plan was to simplify my portfolio, making it more accessible, with less redundant information.
