@@ -40,7 +40,7 @@ export default [
         date: 'May 2025',
         stats: '14 km · 864 m ascent',
         details:
-            "First time hiking in the snow, despite hiring out all of the equipment, we turned back at CMD, looks like we'll be back soon!",
+            "First time scrambling along Crib Goch, incredible day with perfect conditions.",
     },
     {
         title: "Land's End to John o' Groats",
