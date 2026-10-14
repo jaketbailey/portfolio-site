@@ -1,8 +1,8 @@
 export default [
     {
         title: 'Dissertation Project',
-        imgUrl: '/route_planner.png',
-        imgUrlLight: '/route_planner.png',
+        imgUrl: '/route_planner.webp',
+        imgUrlLight: '/route_planner.webp',
         stack: ['Go', 'React', 'Vite'],
         link: 'https://github.com/jaketbailey/final-year-project',
         description: `

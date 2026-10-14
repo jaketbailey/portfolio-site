@@ -14,21 +14,24 @@ export default [
         location: 'Eryri, Wales',
         date: 'Sept 2026',
         stats: '6 km · 650 m ascent',
-        details: 'Second time scrambling up Tryfan, this time via the North Ridge, beatiful weather for it!',
+        details:
+            'Second time scrambling up Tryfan, this time via the North Ridge, beatiful weather for it!',
     },
     {
         title: 'Ben Nevis via CMD attempt',
         type: 'Hike',
         location: 'Highlands, Scotland',
         date: 'May 2026',
-        details: 'First time hiking in the snow, despite hiring out all of the equipment, we turned back at CMD, looks like we\'ll be back soon!',
+        details:
+            "First time hiking in the snow, despite hiring out all of the equipment, we turned back at CMD, looks like we'll be back soon!",
     },
     {
         title: 'Sgor nam Fiannaidh',
         type: 'Hike',
         location: 'Highlands, Scotland',
         date: 'May 2026',
-        details: 'Hike up to have a look at Aonach Eagach, a great but long day!',
+        details:
+            'Hike up to have a look at Aonach Eagach, a great but long day!',
     },
     {
         title: 'Snowdon via Crib Goch & Garnedd Ugain',
@@ -36,7 +39,8 @@ export default [
         location: 'Eryri, Wales',
         date: 'May 2025',
         stats: '14 km · 864 m ascent',
-        details: 'First time hiking in the snow, despite hiring out all of the equipment, we turned back at CMD, looks like we\'ll be back soon!',
+        details:
+            "First time hiking in the snow, despite hiring out all of the equipment, we turned back at CMD, looks like we'll be back soon!",
     },
     {
         title: "Land's End to John o' Groats",
