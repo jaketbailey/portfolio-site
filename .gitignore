@@ -24,3 +24,11 @@ dist-ssr
 *.sw?
 
 .env
+
+# Gallery originals and generated derivatives (served from the home server)
+photos-src/
+photos-out/
+
+# Dev-only symlink to photos-out
+public/photos
+compose.yaml

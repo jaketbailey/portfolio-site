@@ -9,7 +9,7 @@ export default function Intro() {
             <h1 className="text-4xl md:text-7xl mb-1 md:mb-3 font-bold">
                 Jake Bailey
             </h1>
-            <p className="text-base md:text-xl mb-3 font-medium">
+            <p className="font-heading text-base md:text-xl mb-3 font-medium">
                 Software Engineer
             </p>
             <p className="text-md max-w-full md:max-w-md mb-6">

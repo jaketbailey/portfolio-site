@@ -1,0 +1,8 @@
+node_modules
+dist
+.git
+.env*
+# A dev symlink to the gallery; Vite would copy every photo into the image.
+public/photos
+photos-src
+photos-out
