@@ -20,7 +20,7 @@ To add photos:
 2. Run `bun run gallery -- --src ./photos-src --out ./photos-out` (see
    `scripts/build-gallery.mjs --help`). This resizes two derivatives per photo
    and updates `gallery.json` in place — re-running after adding more photos
-   only touches the new ones. Add `--watermark "© Jake Bailey"` to stamp text
+   only touches the new ones. Add `--watermark "© 2026 Jake Bailey"` to stamp text
    in the bottom-right corner; changing or dropping it rebuilds every image.
 3. Fill in the blank metadata fields the script prints out (`name`, `camera`,
    `lens`, `film`, `iso`, etc.) directly in `gallery.json`.
