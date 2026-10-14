@@ -20,6 +20,13 @@ const LINKS = [
         viewBox: '0 0 16 16',
         path: 'M6.731 0 2 9.125h2.788L6.73 5.497l1.93 3.628h2.766zm4.694 9.125-1.372 2.756L8.66 9.125H6.547L10.053 16l3.484-6.875z',
     },
+    {
+        href: 'mailto:hello@contact.jaketbailey.co.uk',
+        label: 'Email',
+        title: 'hello@contact.jaketbailey.co.uk',
+        viewBox: '0 0 24 24',
+        path: 'M1.5 8.67v8.58a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V8.67l-8.928 5.493a3 3 0 0 1-3.144 0L1.5 8.67z M22.5 6.908V6.75a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3v.158l9.714 5.978a1.5 1.5 0 0 0 1.572 0L22.5 6.908z',
+    },
 ]
 
 export default function Socials() {
@@ -31,16 +38,18 @@ export default function Socials() {
                     href={href}
                     title={title}
                     aria-label={label}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    className="bg-blue-400 dark:bg-purple-400 p-2 font-semibold inline-flex items-center space-x-2 rounded-md"
+                    {...(href.startsWith('http') && {
+                        target: '_blank',
+                        rel: 'noreferrer noopener',
+                    })}
+                    className="pressable bg-accent hover:bg-accent/90 p-2 font-semibold inline-flex items-center space-x-2 rounded-md"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         role="img"
                         aria-hidden="true"
                         viewBox={viewBox}
-                        className="w-5 h-5 fill-white dark:fill-zinc-900"
+                        className="w-5 h-5 fill-on-accent"
                     >
                         <path fillRule="evenodd" clipRule="evenodd" d={path} />
                     </svg>

@@ -2,7 +2,7 @@ export default [
     {
         year: '2024',
         title: 'Combat Systems Software Engineer',
-        duration: 'Current Position',
+        duration: '2024 – Present',
         details:
             'I am currently Combat Systems Software Engineer at BAE Systems, developing a range of proof-of-concept and productionised software built in various languages/technologies from Rust to TypeScript/React/Redux.',
     },
@@ -15,16 +15,9 @@ export default [
     },
     {
         year: '2022',
-        title: 'Combat Systems Software Engineer',
+        title: 'Combat Systems Software Engineer (Placement)',
         duration: '1 year',
         details:
             'In June 2022 I started my placement at BAE Systems Maritime Naval Ships developing everything from complex data analyst tools in MATLAB, to proof-of-concept software with Vue, Python and React.',
-    },
-    {
-        year: '2016',
-        title: 'Charity Cycle',
-        duration: '12 days',
-        details:
-            "Successfully cycled from Land's End to John o' Groats, raising £7300 for charities. Completed numerous other cycling events and raised funds through various means.",
     },
 ]

@@ -2,12 +2,159 @@
 @tailwind components;
 @tailwind utilities;
 @layer base {
+    /* "Trail" palette. Stored as RGB channels so Tailwind's opacity modifiers
+       (bg-page/80 etc.) work; see the colors block in tailwind.config.js. */
+    :root {
+        --color-page: 245 247 243;
+        --color-surface: 255 255 255;
+        --color-line: 213 221 214;
+        --color-ink: 23 34 28;
+        --color-muted: 85 99 90;
+        --color-accent: 46 106 76;
+        --color-on-accent: 255 255 255;
+        --color-link: 36 87 62;
+        --color-tag: 221 235 226;
+        --color-tag-ink: 31 77 55;
+        --grain-opacity: 0.09;
+    }
+    /* Dusk in a pine forest: deep moss rather than near-black, warm
+       parchment text and a soft sage accent, to match the field-guide feel
+       of the light theme. */
+    .dark {
+        --color-page: 23 32 27;
+        --color-surface: 31 42 36;
+        --color-line: 52 68 58;
+        --color-ink: 232 227 211;
+        --color-muted: 168 174 159;
+        --color-accent: 163 201 168;
+        --color-on-accent: 20 32 26;
+        --color-link: 185 216 188;
+        --color-tag: 42 59 49;
+        --color-tag-ink: 197 221 198;
+        --grain-opacity: 0.1;
+    }
     html {
-        font-family: 'DM Sans', system-ui, sans-serif;
+        @apply font-sans;
+        font-optical-sizing: auto;
+        /* Reserve the scrollbar's space even on short pages, so the layout
+           doesn't shift sideways between pages where it appears. */
+        scrollbar-gutter: stable;
+    }
+    @media (prefers-reduced-motion: no-preference) {
+        html {
+            scroll-behavior: smooth;
+        }
     }
     h1,
     h2,
     h3 {
-        @apply font-heading;
+        @apply font-heading tracking-tight;
     }
+}
+
+@layer components {
+    /* Film grain behind the page content (never over photos). Static and
+       fixed to the screen, so it costs nothing while scrolling. The noise is
+       turned into black specks of varying transparency; dark mode inverts
+       them to light specks. */
+    .grain {
+        isolation: isolate;
+    }
+    .grain::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        pointer-events: none;
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  3 0 0 0 -1.5'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+        background-size: 240px 240px;
+        opacity: var(--grain-opacity);
+    }
+    .dark .grain::before {
+        filter: invert(1);
+    }
+    @media (prefers-contrast: more) {
+        .grain::before {
+            display: none;
+        }
+    }
+
+    .no-scrollbar {
+        scrollbar-width: none;
+    }
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Instant feedback on press, not on release. */
+    .pressable {
+        -webkit-tap-highlight-color: transparent;
+        transition:
+            color 150ms ease,
+            background-color 150ms ease,
+            border-color 150ms ease;
+    }
+    @media (prefers-reduced-motion: no-preference) {
+        .pressable {
+            transition:
+                transform 100ms ease-out,
+                color 150ms ease,
+                background-color 150ms ease,
+                border-color 150ms ease;
+        }
+        .pressable:active {
+            transform: scale(0.97);
+        }
+    }
+
+    /* Translucent chrome that content scrolls underneath. The soft fade below
+       it replaces a hard divider. */
+    .material {
+        background-color: rgb(var(--color-page) / 0.72);
+        backdrop-filter: blur(20px) saturate(160%);
+        -webkit-backdrop-filter: blur(20px) saturate(160%);
+    }
+    .material::after {
+        content: '';
+        position: absolute;
+        inset-inline: 0;
+        top: 100%;
+        height: 12px;
+        pointer-events: none;
+        /* A flat colour shaped by a mask rather than a gradient image:
+           gradients can't transition, so during the theme fade the edge would
+           jump to the new colour while the header was still easing. */
+        background-color: rgb(var(--color-page) / 0.5);
+        -webkit-mask-image: linear-gradient(black, transparent);
+        mask-image: linear-gradient(black, transparent);
+    }
+    @media (prefers-reduced-transparency: reduce) {
+        .material {
+            background-color: rgb(var(--color-page));
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+        }
+    }
+    @media (prefers-contrast: more) {
+        .material {
+            background-color: rgb(var(--color-page));
+            border-bottom: 1px solid rgb(var(--color-ink));
+        }
+        .material::after {
+            display: none;
+        }
+    }
+}
+
+/* Added for a moment while the theme toggles, so light <-> dark eases rather
+   than flashing. Never applied when reduced motion is requested. */
+.theme-fade,
+.theme-fade *,
+.theme-fade *::before,
+.theme-fade *::after {
+    transition:
+        background-color 200ms ease,
+        border-color 200ms ease,
+        color 200ms ease,
+        fill 200ms ease !important;
 }

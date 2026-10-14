@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 
 const STORAGE_KEY = 'theme'
+let fadeTimer
 
 function systemTheme() {
     return window.matchMedia('(prefers-color-scheme: dark)').matches
@@ -42,10 +43,18 @@ export default function useTheme() {
         return () => media.removeEventListener('change', onChange)
     }, [])
 
-    const toggleTheme = useCallback(
-        () => setTheme((current) => (current === 'dark' ? 'light' : 'dark')),
-        []
-    )
+    const toggleTheme = useCallback(() => {
+        const root = document.documentElement
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            root.classList.add('theme-fade')
+            window.clearTimeout(fadeTimer)
+            fadeTimer = window.setTimeout(
+                () => root.classList.remove('theme-fade'),
+                250
+            )
+        }
+        setTheme((current) => (current === 'dark' ? 'light' : 'dark'))
+    }, [])
 
     return { theme, toggleTheme }
 }

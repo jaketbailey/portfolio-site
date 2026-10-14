@@ -45,5 +45,8 @@ export function photoDetails(photo) {
     ].filter(([, value]) => value != null && String(value).trim() !== '')
 }
 
+// Stable identifier for a photo, used in links like /gallery?photo=<id>.
+export const photoId = (photo) => photo.id || photo.file || photo.full
+
 export const photoTitle = (photo, index) =>
     photo.name?.trim() || photo.file || `Photo ${index + 1}`
