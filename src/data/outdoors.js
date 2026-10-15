@@ -28,6 +28,7 @@ export default [
         type: 'Hike',
         location: 'Highlands, Scotland',
         date: 'May 2026',
+        stats: '15.57 km · 1219 m ascent',
         details:
             "First time hiking in the snow, despite hiring out all of the equipment, we turned back at CMD, looks like we'll be back soon!",
     },
@@ -38,6 +39,7 @@ export default [
         type: 'Hike',
         location: 'Highlands, Scotland',
         date: 'May 2026',
+        stats: '15.81 km · 1197 m ascent',
         details:
             'Hike up to have a look at Aonach Eagach, a great but long day!',
     },
@@ -48,7 +50,7 @@ export default [
         type: 'Scramble/Hike',
         location: 'Eryri, Wales',
         date: 'May 2025',
-        stats: '14 km · 864 m ascent',
+        stats: '13.79 km · 864 m ascent',
         details:
             'First time scrambling along Crib Goch, incredible day with perfect conditions.',
     },
