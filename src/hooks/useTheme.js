@@ -80,18 +80,32 @@ export default function useTheme() {
             flushSync(() => setTheme(next))
         }
 
+        const root = document.documentElement
+        // Elements' own colour transitions (e.g. the 150ms on buttons and
+        // cards) would otherwise run on top of the switch, out of step with
+        // it, so they're paused until it's done.
+        const pauseTransitions = () => root.classList.add('theme-switching')
+        const resumeTransitions = () =>
+            requestAnimationFrame(() =>
+                root.classList.remove('theme-switching')
+            )
+
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            pauseTransitions()
             apply()
+            resumeTransitions()
             return
         }
         // Cross-fade the whole page (text, borders, photos and all) between
         // a snapshot of the old theme and the new one.
         if (document.startViewTransition) {
-            document.startViewTransition(apply)
+            pauseTransitions()
+            document
+                .startViewTransition(apply)
+                .finished.finally(resumeTransitions)
             return
         }
         // Older browsers: fade the colours in place instead.
-        const root = document.documentElement
         root.classList.add('theme-fade')
         window.clearTimeout(fadeTimer)
         fadeTimer = window.setTimeout(

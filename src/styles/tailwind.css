@@ -175,7 +175,15 @@
     }
 }
 
-/* The theme toggle cross-fades the whole page with a view transition. */
+/* The theme toggle cross-fades the whole page with a view transition. While
+   it runs, elements' own transitions are switched off so nothing changes
+   colour on a different timing underneath the fade. */
+.theme-switching,
+.theme-switching *,
+.theme-switching *::before,
+.theme-switching *::after {
+    transition: none !important;
+}
 ::view-transition-old(root),
 ::view-transition-new(root) {
     animation-duration: 300ms;
