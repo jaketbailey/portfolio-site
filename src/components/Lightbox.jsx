@@ -13,6 +13,17 @@ const VELOCITY_WINDOW = 100
 const prefersReducedMotion = () =>
     window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
+// Phones and tablets get the 1200px thumbnail in the viewer: sharp enough for
+// their screens and a fraction of the download, so flicking through stays
+// quick on mobile data. Larger screens get the full-size image.
+const SMALL_SCREEN = '(max-width: 1024px)'
+const viewerSrc = (photo) =>
+    assetUrl(
+        window.matchMedia(SMALL_SCREEN).matches
+            ? photo.thumb || photo.full
+            : photo.full || photo.thumb
+    )
+
 // `galleryLink` adds a "Show in gallery" button, for when the viewer is
 // opened from somewhere other than the gallery page. It can also be a
 // function of the photo, to show the button only for photos the gallery has.
@@ -36,6 +47,13 @@ export default function Lightbox({
     const spring = useRef(null) // { animation, direction } while settling
     const drag = useRef(null)
     const suppressClick = useRef(false)
+    // When a photo is grabbed (or an arrow pressed) mid-slide, the move in
+    // flight is committed straight away so there's always a photo either side,
+    // however fast you flick. `rebase` holds where the track should sit once
+    // the new photo has rendered; `afterRebase` is a release or arrow press
+    // that came in before it did.
+    const rebase = useRef(null)
+    const afterRebase = useRef(null)
 
     const setOffset = useCallback(
         (x) => {
@@ -51,13 +69,17 @@ export default function Lightbox({
         [hasNeighbours]
     )
 
-    // A new photo is always shown centred. Runs before paint, so swapping the
-    // slides after a slide-over never flashes.
-    // Anything still in flight (e.g. Home/End pressed mid-slide) is stale.
+    // A new photo is shown centred, or wherever a mid-slide grab left it. Runs
+    // before paint, so swapping the slides never flashes. Anything still in
+    // flight (e.g. Home/End pressed mid-slide) is stale.
     useLayoutEffect(() => {
         spring.current?.animation.stop()
         spring.current = null
-        setOffset(0)
+        setOffset(rebase.current ?? 0)
+        rebase.current = null
+        const pending = afterRebase.current
+        afterRebase.current = null
+        pending?.(actions.current)
     }, [index, setOffset])
 
     useEffect(() => () => spring.current?.animation.stop(), [])
@@ -94,20 +116,34 @@ export default function Lightbox({
         [index, onNavigate, setOffset, wrap]
     )
 
+    // If a slide to the next/previous photo is under way, make that photo the
+    // current one now, keeping the track exactly where it is on screen.
+    // Returns whether there was one to commit.
+    const commitInFlight = () => {
+        const inFlight = spring.current
+        if (!inFlight) return false
+        inFlight.animation.stop()
+        spring.current = null
+        if (inFlight.direction === 0) return false
+        const width = viewportRef.current?.clientWidth ?? 0
+        rebase.current = offset.current + inFlight.direction * width
+        onNavigate(wrap(index + inFlight.direction))
+        return true
+    }
+
     const go = useCallback(
         (delta) => {
             if (!hasNeighbours) return
-            // Pressed again mid-slide: land the one in flight and move on
-            // rather than making the visitor wait for it.
-            const inFlight = spring.current
-            if (inFlight && inFlight.direction !== 0) {
-                inFlight.animation.stop()
-                spring.current = null
-                onNavigate(wrap(index + inFlight.direction + delta))
+            // Pressed again mid-slide: land the one in flight where it is and
+            // carry on to the next from there.
+            if (commitInFlight() || rebase.current !== null) {
+                afterRebase.current = ({ settle: next }) => next(delta)
                 return
             }
             settle(delta)
         },
+        // commitInFlight only reads refs and the props listed here.
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         [hasNeighbours, index, onNavigate, settle, wrap]
     )
 
@@ -164,16 +200,13 @@ export default function Lightbox({
     const onPointerDown = (event) => {
         if (event.button !== 0) return
         // Grabbing a photo mid-slide catches it where it is.
-        if (spring.current) {
-            spring.current.animation.stop()
-            spring.current = null
-        }
+        commitInFlight()
         drag.current = {
             id: event.pointerId,
             target: event.currentTarget, // the photo or the caption area
             startX: event.clientX,
             startY: event.clientY,
-            base: offset.current,
+            base: rebase.current ?? offset.current,
             active: false,
             history: [],
         }
@@ -202,7 +235,9 @@ export default function Lightbox({
         const width = viewportRef.current?.clientWidth ?? 1
         let x = state.base + (event.clientX - state.startX)
         if (!hasNeighbours) x = rubberband(x, width)
-        setOffset(x)
+        // Until the committed photo renders, remember the position instead.
+        if (rebase.current !== null) rebase.current = x
+        else setOffset(x)
 
         const now = event.timeStamp
         state.history.push({ x: event.clientX, t: now })
@@ -229,6 +264,15 @@ export default function Lightbox({
                 ? ((last.x - first.x) / elapsed) * 1000
                 : 0
 
+        if (rebase.current !== null) {
+            afterRebase.current = ({ release }) => release(velocity)
+            return
+        }
+        release(velocity)
+    }
+
+    // Let go: spring to wherever the flick would have come to rest.
+    const release = (velocity) => {
         if (!hasNeighbours) {
             settle(0, velocity)
             return
@@ -239,6 +283,20 @@ export default function Lightbox({
             resting < -width / 2 ? 1 : resting > width / 2 ? -1 : 0
         settle(direction, velocity)
     }
+
+    // This render's handlers, for work queued until the new photo renders.
+    const actions = useRef(null)
+    actions.current = { release, settle }
+
+    // Start downloading the photos two steps away, so they're ready by the
+    // time they slide in (the neighbours either side are already rendered).
+    useEffect(() => {
+        if (count < 4) return
+        for (const step of [-2, 2]) {
+            const ahead = photos[wrap(index + step)]
+            if (ahead) new Image().src = viewerSrc(ahead)
+        }
+    }, [index, photos, count, wrap])
 
     // A drag shouldn't count as a click on the backdrop (which closes).
     const onClickCapture = (event) => {
@@ -348,19 +406,33 @@ export default function Lightbox({
                                 aria-hidden={slot !== 'current'}
                                 className="h-full w-full shrink-0 flex items-center justify-center px-2 sm:px-16"
                             >
-                                <img
-                                    src={assetUrl(slide.full || slide.thumb)}
-                                    alt={
-                                        slot === 'current'
-                                            ? slide.alt || title
-                                            : ''
-                                    }
-                                    width={slide.width || undefined}
-                                    height={slide.height || undefined}
-                                    draggable={false}
-                                    onClick={(event) => event.stopPropagation()}
-                                    className="max-h-full max-w-full w-auto h-auto object-contain rounded-sm"
-                                />
+                                {/* `contents` so the image still sizes
+                                    itself against the slide. */}
+                                <picture className="contents">
+                                    {slide.thumb && slide.full && (
+                                        <source
+                                            media={SMALL_SCREEN}
+                                            srcSet={assetUrl(slide.thumb)}
+                                        />
+                                    )}
+                                    <img
+                                        src={assetUrl(
+                                            slide.full || slide.thumb
+                                        )}
+                                        alt={
+                                            slot === 'current'
+                                                ? slide.alt || title
+                                                : ''
+                                        }
+                                        width={slide.width || undefined}
+                                        height={slide.height || undefined}
+                                        draggable={false}
+                                        onClick={(event) =>
+                                            event.stopPropagation()
+                                        }
+                                        className="max-h-full max-w-full w-auto h-auto object-contain rounded-sm"
+                                    />
+                                </picture>
                             </div>
                         ))}
                     </div>

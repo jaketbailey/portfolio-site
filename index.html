@@ -17,6 +17,10 @@
     <meta property="og:type" content="website" />
     <meta property="og:image" content="/jake_portrait.webp" />
     <meta name="twitter:card" content="summary" />
+    <!-- Browser/status bar colour: the page background. The script below and
+         useTheme switch it with the theme. These hex values are the
+         --color-page values in src/styles/tailwind.css. -->
+    <meta name="theme-color" content="#f5f7f3" />
 
     <!-- Apply the stored theme before the first paint so there's no flash of
          the wrong colours (and the toggle icon starts out correct). -->
@@ -32,6 +36,9 @@
                 : 'light'
           if (theme === 'dark') document.documentElement.classList.add('dark')
           document.documentElement.style.colorScheme = theme
+          document
+            .querySelector('meta[name="theme-color"]')
+            .setAttribute('content', theme === 'dark' ? '#17201b' : '#f5f7f3')
         } catch (e) {}
       })()
     </script>

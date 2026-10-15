@@ -27,6 +27,17 @@ export default function useTheme() {
     useEffect(() => {
         document.documentElement.classList.toggle('dark', theme === 'dark')
         document.documentElement.style.colorScheme = theme
+        // Match the browser/status bar to the page background. Read from the
+        // colour variable (not the body's colour, which is mid-fade here) so
+        // it follows any retheme in tailwind.css.
+        const page = getComputedStyle(document.documentElement)
+            .getPropertyValue('--color-page')
+            .trim()
+        if (page) {
+            document
+                .querySelector('meta[name="theme-color"]')
+                ?.setAttribute('content', `rgb(${page})`)
+        }
         try {
             localStorage.setItem(STORAGE_KEY, theme)
         } catch {
