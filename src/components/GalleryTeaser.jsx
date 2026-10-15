@@ -1,22 +1,18 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { assetUrl, fetchGallery, photoId, photoTitle } from '../lib/gallery'
+import useGalleryPhotos from '../hooks/useGalleryPhotos'
+import { assetUrl, inGallery, photoId, photoTitle } from '../lib/gallery'
+import Lightbox from './Lightbox'
 import SectionHeading from './SectionHeading'
 
 const COUNT = 4
 
 // A strip of the first few gallery photos. Renders nothing until the manifest
 // loads, and stays hidden if it can't be loaded (e.g. in dev without photos).
+// A photo opens full size right here; the viewer links on to the gallery.
 export default function GalleryTeaser() {
-    const [photos, setPhotos] = useState([])
-
-    useEffect(() => {
-        const controller = new AbortController()
-        fetchGallery(controller.signal)
-            .then((loaded) => setPhotos(loaded.slice(0, COUNT)))
-            .catch(() => {})
-        return () => controller.abort()
-    }, [])
+    const photos = useGalleryPhotos().filter(inGallery).slice(0, COUNT)
+    const [openIndex, setOpenIndex] = useState(null)
 
     if (photos.length === 0) return null
 
@@ -33,21 +29,33 @@ export default function GalleryTeaser() {
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {photos.map((photo, index) => (
-                    <Link
+                    <button
+                        type="button"
                         key={photoId(photo)}
-                        to={`/gallery?photo=${encodeURIComponent(photoId(photo))}`}
-                        className="pressable block aspect-square overflow-hidden rounded-sm bg-surface focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                        onClick={() => setOpenIndex(index)}
+                        aria-label={`View ${photoTitle(photo, index)}`}
+                        className="pressable group block aspect-square overflow-hidden rounded-sm bg-surface focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
                     >
                         <img
                             src={assetUrl(photo.thumb || photo.full)}
                             alt={photo.alt || photoTitle(photo, index)}
                             loading="lazy"
                             decoding="async"
-                            className="w-full h-full object-cover motion-safe:transition motion-safe:duration-300 motion-safe:hover:scale-105"
+                            className="w-full h-full object-cover motion-safe:transition motion-safe:duration-300 motion-safe:group-hover:scale-105"
                         />
-                    </Link>
+                    </button>
                 ))}
             </div>
+
+            {openIndex !== null && (
+                <Lightbox
+                    photos={photos}
+                    index={openIndex}
+                    onClose={() => setOpenIndex(null)}
+                    onNavigate={setOpenIndex}
+                    galleryLink
+                />
+            )}
         </section>
     )
 }

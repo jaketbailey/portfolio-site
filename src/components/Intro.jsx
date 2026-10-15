@@ -1,4 +1,6 @@
+import { Fragment } from 'react'
 import skills from '../data/skills'
+import DotList from './DotList'
 import Socials from './Socials'
 
 export default function Intro() {
@@ -32,16 +34,21 @@ export default function Intro() {
                     </a>
                     .
                 </p>
-                <ul aria-label="Skills" className="flex flex-wrap gap-2">
-                    {skills.map((skill) => (
-                        <li
-                            key={skill}
-                            className="px-2 py-1 text-xs font-semibold uppercase tracking-wide rounded-md bg-tag text-tag-ink"
-                        >
-                            {skill}
-                        </li>
+                <dl
+                    aria-label="Skills"
+                    className="grid grid-cols-[max-content_minmax(0,1fr)] gap-x-5 gap-y-1.5"
+                >
+                    {skills.map(({ group, items }) => (
+                        <Fragment key={group}>
+                            <dt className="pt-0.5 text-xs font-semibold uppercase tracking-wider text-muted">
+                                {group}
+                            </dt>
+                            <dd>
+                                <DotList items={items} />
+                            </dd>
+                        </Fragment>
                     ))}
-                </ul>
+                </dl>
                 <div className="flex flex-wrap gap-2 mt-5">
                     <Socials />
                 </div>

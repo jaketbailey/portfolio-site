@@ -15,7 +15,7 @@
         --color-link: 36 87 62;
         --color-tag: 221 235 226;
         --color-tag-ink: 31 77 55;
-        --grain-opacity: 0.09;
+        --grain-opacity: 0.065;
     }
     /* Dusk in a pine forest: deep moss rather than near-black, warm
        parchment text and a soft sage accent, to match the field-guide feel
@@ -31,7 +31,7 @@
         --color-link: 185 216 188;
         --color-tag: 42 59 49;
         --color-tag-ink: 197 221 198;
-        --grain-opacity: 0.1;
+        --grain-opacity: 0.032;
     }
     html {
         @apply font-sans;
@@ -56,25 +56,46 @@
     /* Film grain behind the page content (never over photos). Static and
        fixed to the screen, so it costs nothing while scrolling. The noise is
        turned into black specks of varying transparency; dark mode inverts
-       them to light specks. */
+       them to light specks.
+       The frosted header blurs the page grain away behind it, so it carries
+       its own copy on top of the blur. Both are pinned to the top-left of the
+       screen, so the two line up exactly and the texture runs straight
+       through the glass. */
     .grain {
         isolation: isolate;
     }
-    .grain::before {
+    .grain::before,
+    .material::before {
         content: '';
-        position: fixed;
         inset: 0;
         z-index: -1;
         pointer-events: none;
-        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  3 0 0 0 -1.5'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
-        background-size: 240px 240px;
+        /* Two noise tiles with different seeds and sizes that share no
+           factor, so their combined pattern only repeats every ~87,000px:
+           no visible tiling, still pure CSS. */
+        background-image:
+            url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='239' height='239'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' seed='7' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  3 0 0 0 -1.5'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>"),
+            url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='367' height='367'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' seed='23' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  3 0 0 0 -1.5'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+        background-size:
+            239px 239px,
+            367px 367px;
         opacity: var(--grain-opacity);
     }
-    .dark .grain::before {
+    .grain::before {
+        position: fixed;
+    }
+    .material::before {
+        /* The header is a stacking context, so -1 keeps this above the
+           header's own background but behind its buttons and links. */
+        position: absolute;
+    }
+    .dark .grain::before,
+    .dark .material::before {
         filter: invert(1);
     }
     @media (prefers-contrast: more) {
-        .grain::before {
+        .grain::before,
+        .material::before {
             display: none;
         }
     }

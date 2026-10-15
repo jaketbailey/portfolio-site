@@ -1,3 +1,5 @@
+import trips from '../data/outdoors'
+
 // Where the photos and their manifest are served from: the gallery directory
 // mounted into the container (see compose.yaml), on the same origin as the site.
 const BASE = '/photos'
@@ -47,6 +49,15 @@ export function photoDetails(photo) {
 
 // Stable identifier for a photo, used in links like /gallery?photo=<id>.
 export const photoId = (photo) => photo.id || photo.file || photo.full
+
+// Photos used by Outdoors trips marked `showInGallery: false` belong to the
+// logbook only: they're left out of the gallery page and the homepage strip.
+const outdoorsOnly = new Set(
+    trips
+        .filter((trip) => trip.photo && trip.showInGallery === false)
+        .map((trip) => trip.photo)
+)
+export const inGallery = (photo) => !outdoorsOnly.has(photoId(photo))
 
 export const photoTitle = (photo, index) =>
     photo.name?.trim() || photo.file || `Photo ${index + 1}`

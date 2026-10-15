@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom'
 import Layout, { PAGE_COLUMN } from '../components/Layout'
 import Lightbox from '../components/Lightbox'
 import PhotoTile from '../components/PhotoTile'
-import { fetchGallery, manifestUrl, photoId } from '../lib/gallery'
+import { fetchGallery, inGallery, manifestUrl, photoId } from '../lib/gallery'
 
 export default function Gallery() {
     const [photos, setPhotos] = useState([])
@@ -33,7 +33,7 @@ export default function Gallery() {
         const controller = new AbortController()
         fetchGallery(controller.signal)
             .then((loaded) => {
-                setPhotos(loaded)
+                setPhotos(loaded.filter(inGallery))
                 setStatus('ready')
             })
             .catch((err) => {

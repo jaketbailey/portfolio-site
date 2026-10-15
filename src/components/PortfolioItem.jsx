@@ -1,3 +1,5 @@
+import DotList from './DotList'
+
 export default function PortfolioItem({
     title,
     imgUrl,
@@ -31,16 +33,10 @@ export default function PortfolioItem({
                 <h3 className="text-xl md:text-2xl font-semibold leading-snug">
                     {title}
                 </h3>
-                <ul className="flex flex-wrap gap-2" aria-label="Built with">
-                    {stack.map((item) => (
-                        <li
-                            key={item}
-                            className="px-2 py-1 text-xs font-semibold uppercase tracking-wide text-tag-ink bg-tag rounded-md"
-                        >
-                            {item}
-                        </li>
-                    ))}
-                </ul>
+                <p className="-mt-1 text-xs font-semibold uppercase tracking-wider text-muted">
+                    <span className="sr-only">Built with </span>
+                    <DotList items={stack} />
+                </p>
                 <p className="text-sm">{description.trim()}</p>
                 <span className="mt-auto text-sm font-medium text-link">
                     View on GitHub{' '}
