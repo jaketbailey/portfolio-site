@@ -39,7 +39,13 @@ export default function Layout({ children }) {
 
     return (
         <div className="grain bg-page text-ink min-h-screen">
-            <header className="material fixed z-20 inset-x-0 top-0 pt-3 pb-2 md:py-3">
+            {/* Re-created (via `key`) on every theme change: Safari 26+ takes its
+                toolbar colour from a fixed header like this one, but only
+                re-checks when one appears, not when its colour changes. */}
+            <header
+                key={theme}
+                className="material fixed z-20 inset-x-0 top-0 pt-3 pb-2 md:py-3"
+            >
                 {/* On phones the section links wrap onto their own swipeable
                     row; from md up they sit between the portrait and the
                     buttons. */}

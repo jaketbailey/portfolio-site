@@ -40,6 +40,14 @@
            doesn't shift sideways between pages where it appears. */
         scrollbar-gutter: stable;
     }
+    /* The page colour on the root too: Safari (iOS 26+) ignores the
+       theme-color tag and tints its toolbars from the page itself, which
+       otherwise falls back to plain white or black. Also colours the
+       overscroll area when the page is pulled past its ends. */
+    html,
+    body {
+        background-color: rgb(var(--color-page));
+    }
     @media (prefers-reduced-motion: no-preference) {
         html {
             scroll-behavior: smooth;
@@ -167,7 +175,15 @@
     }
 }
 
-/* Added for a moment while the theme toggles, so light <-> dark eases rather
+/* The theme toggle cross-fades the whole page with a view transition. */
+::view-transition-old(root),
+::view-transition-new(root) {
+    animation-duration: 300ms;
+    animation-timing-function: ease;
+}
+
+/* Fallback for browsers without view transitions: added for a moment while
+   the theme toggles, so light <-> dark eases rather
    than flashing. Never applied when reduced motion is requested. */
 .theme-fade,
 .theme-fade *,

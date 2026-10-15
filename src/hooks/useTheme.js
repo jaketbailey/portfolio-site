@@ -1,7 +1,20 @@
 import { useCallback, useEffect, useState } from 'react'
+import { flushSync } from 'react-dom'
 
 const STORAGE_KEY = 'theme'
 let fadeTimer
+
+// Older Safari (iOS 15-18) only notices a new theme-color when the tag itself
+// is replaced, not when its content changes, so swap in a fresh one.
+function setThemeColor(colour) {
+    const current = document.querySelector('meta[name="theme-color"]')
+    if (current?.getAttribute('content') === colour) return
+    const meta = document.createElement('meta')
+    meta.name = 'theme-color'
+    meta.content = colour
+    if (current) current.replaceWith(meta)
+    else document.head.append(meta)
+}
 
 function systemTheme() {
     return window.matchMedia('(prefers-color-scheme: dark)').matches
@@ -34,9 +47,12 @@ export default function useTheme() {
             .getPropertyValue('--color-page')
             .trim()
         if (page) {
-            document
-                .querySelector('meta[name="theme-color"]')
-                ?.setAttribute('content', `rgb(${page})`)
+            // As hex, the format every browser reads for theme-color.
+            const hex = page
+                .split(/\s+/)
+                .map((channel) => Number(channel).toString(16).padStart(2, '0'))
+                .join('')
+            setThemeColor(`#${hex}`)
         }
         try {
             localStorage.setItem(STORAGE_KEY, theme)
@@ -55,17 +71,35 @@ export default function useTheme() {
     }, [])
 
     const toggleTheme = useCallback(() => {
-        const root = document.documentElement
-        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-            root.classList.add('theme-fade')
-            window.clearTimeout(fadeTimer)
-            fadeTimer = window.setTimeout(
-                () => root.classList.remove('theme-fade'),
-                250
-            )
+        const next = theme === 'dark' ? 'light' : 'dark'
+        const apply = () => {
+            // Set the class here as well as in the effect above, so the new
+            // colours are in place within this call (the view transition
+            // snapshots the page as soon as it returns).
+            document.documentElement.classList.toggle('dark', next === 'dark')
+            flushSync(() => setTheme(next))
         }
-        setTheme((current) => (current === 'dark' ? 'light' : 'dark'))
-    }, [])
+
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            apply()
+            return
+        }
+        // Cross-fade the whole page (text, borders, photos and all) between
+        // a snapshot of the old theme and the new one.
+        if (document.startViewTransition) {
+            document.startViewTransition(apply)
+            return
+        }
+        // Older browsers: fade the colours in place instead.
+        const root = document.documentElement
+        root.classList.add('theme-fade')
+        window.clearTimeout(fadeTimer)
+        fadeTimer = window.setTimeout(
+            () => root.classList.remove('theme-fade'),
+            250
+        )
+        setTheme(next)
+    }, [theme])
 
     return { theme, toggleTheme }
 }

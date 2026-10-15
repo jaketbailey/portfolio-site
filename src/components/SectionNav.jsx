@@ -14,9 +14,34 @@ const SECTIONS = [
 // Which sections are on the page (Outdoors and Photography hide themselves
 // when they have nothing to show, and Photography appears once the gallery
 // manifest loads) and which one is being read.
+const findPresent = () =>
+    SECTIONS.filter(({ id }) => document.getElementById(id))
+
+// The section being read is the last one whose top has passed a line a third
+// of the way down the screen. The last sections can't scroll that far, so at
+// the very bottom the last one wins.
+function readActive(present) {
+    if (present.length === 0) return null
+    const atBottom =
+        window.innerHeight + window.scrollY >=
+        document.documentElement.scrollHeight - 2
+    if (atBottom) return present[present.length - 1].id
+    const line = window.innerHeight * 0.3
+    let current = null
+    for (const { id } of present) {
+        const el = document.getElementById(id)
+        if (el && el.getBoundingClientRect().top <= line) current = id
+    }
+    return current
+}
+
 function useSections() {
-    const [present, setPresent] = useState([])
-    const [active, setActive] = useState(null)
+    // Worked out straight away rather than after mounting, so a header that's
+    // re-created (on a theme change) shows the right links from its first
+    // frame. On the very first load the page isn't built yet; the effects
+    // below fill these in.
+    const [present, setPresent] = useState(findPresent)
+    const [active, setActive] = useState(() => readActive(findPresent()))
     // Set while the page scrolls to a link that was clicked, so the
     // highlight stays on what was asked for rather than flickering through
     // the sections on the way (or landing on the wrong one at the bottom).
@@ -27,9 +52,7 @@ function useSections() {
         if (!main) return
         const update = () =>
             setPresent((current) => {
-                const next = SECTIONS.filter(({ id }) =>
-                    document.getElementById(id)
-                )
+                const next = findPresent()
                 return next.length === current.length &&
                     next.every((s, i) => s.id === current[i].id)
                     ? current
@@ -50,26 +73,10 @@ function useSections() {
             clicked.current = null
         }
 
-        // The section being read is the last one whose top has passed a line
-        // a third of the way down the screen. The last sections can't scroll
-        // that far, so at the very bottom the last one wins.
         const update = () => {
             frame = 0
             if (clicked.current) return
-            const atBottom =
-                window.innerHeight + window.scrollY >=
-                document.documentElement.scrollHeight - 2
-            if (atBottom) {
-                setActive(present[present.length - 1].id)
-                return
-            }
-            const line = window.innerHeight * 0.3
-            let current = null
-            for (const { id } of present) {
-                const el = document.getElementById(id)
-                if (el && el.getBoundingClientRect().top <= line) current = id
-            }
-            setActive(current)
+            setActive(readActive(present))
         }
 
         const onScroll = () => {
