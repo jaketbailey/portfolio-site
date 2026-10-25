@@ -49,9 +49,13 @@ const METADATA_TEMPLATE = {
 }
 
 function parseArgs(argv) {
+    // GALLERY_ROOT (set per machine in .env, see .env.example) is a folder
+    // holding photos/ (originals) and gallery/ (what the server mounts).
+    const root = process.env.GALLERY_ROOT || null
     const args = {
-        src: './photos-src',
-        out: './photos-out',
+        src: root ? path.join(root, 'photos') : './photos-src',
+        out: root ? path.join(root, 'gallery') : './photos-out',
+        root,
         force: false,
         watermark: '',
     }
@@ -159,13 +163,20 @@ async function main() {
     const args = parseArgs(process.argv.slice(2))
     if (args.help) {
         console.log(
-            'Usage: node scripts/build-gallery.mjs [--src dir] [--out dir] [--watermark text] [--force]'
+            'Usage: node scripts/build-gallery.mjs [--src dir] [--out dir] [--watermark text] [--force]\n' +
+                'Without --src/--out, uses $GALLERY_ROOT/photos and $GALLERY_ROOT/gallery if GALLERY_ROOT\n' +
+                'is set (e.g. in .env), else ./photos-src and ./photos-out.'
         )
         return
     }
 
     const srcDir = path.resolve(args.src)
     const outDir = path.resolve(args.out)
+    console.log(
+        args.root
+            ? `Gallery root: ${args.root}`
+            : 'GALLERY_ROOT not set; using local folders'
+    )
     const manifestPath = path.join(outDir, 'gallery.json')
 
     let entries

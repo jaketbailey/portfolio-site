@@ -11,10 +11,13 @@ gallery output directory to `public/photos` (gitignored) so Vite serves it.
 
 To add photos:
 
-1. Drop full-resolution originals into a local folder (e.g. `./photos-src`,
-   already gitignored).
-2. Run `bun run gallery -- --src ./photos-src --out ./photos-out` (see
-   `scripts/build-gallery.mjs --help`). This resizes two derivatives per photo
+1. Copy `.env.example` to `.env` (gitignored) and set `GALLERY_ROOT` to the
+   folder on your storage that holds `photos/` (originals) and `gallery/` (the
+   directory the server mounts read-only). Without it, `./photos-src` and
+   `./photos-out` are used (both gitignored).
+2. Drop full-resolution originals into `$GALLERY_ROOT/photos` and run
+   `bun run gallery`. Pass `-- --src … --out …` to use other folders; see
+   `scripts/build-gallery.mjs --help`. This resizes two derivatives per photo
    and updates `gallery.json` in place — re-running after adding more photos
    only touches the new ones. Add `--watermark "© 2026 Jake Bailey"` to stamp text
    in the bottom-right corner; changing or dropping it rebuilds every image.
@@ -40,7 +43,7 @@ services:
         ports:
             - '${PORT:-8085}:8080'
         volumes:
-            - ${GALLERY_DIR:-/mnt/home/image-server/gallery}:/usr/share/nginx/html/photos:ro
+            - ${GALLERY_DIR:-/srv/gallery}:/usr/share/nginx/html/photos:ro
 ```
 
 Deploy with `git pull && docker compose up -d --build`. Re-running

@@ -142,6 +142,14 @@
         background-color: rgb(var(--color-page) / 0.72);
         backdrop-filter: blur(20px) saturate(160%);
         -webkit-backdrop-filter: blur(20px) saturate(160%);
+        transition: background-color 200ms ease;
+    }
+    /* The theme cross-fade blends flat snapshots of the page, and browsers
+       (Safari especially) drop the backdrop blur from them, so the frosted
+       header would briefly show sharp content through it. It's solid for the
+       switch instead, then eases back to frosted. */
+    .theme-switching .material {
+        background-color: rgb(var(--color-page));
     }
     .material::after {
         content: '';
